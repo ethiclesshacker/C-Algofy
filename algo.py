@@ -24,14 +24,11 @@ for l in lines:
     lines[c] = l.strip()
     c = c + 1
 
-
-algo.append("Start")
-
 for l in lines:
     t = ''
     if("void" in l):
-        stack.append("Stop")
-        continue
+        stack.append("Stop.")
+        t = "Start."
     elif("int " in l):
         if(';' in l):
             t  = "Set Variables"
@@ -47,8 +44,22 @@ for l in lines:
         stack.pop()    
     elif("scanf" in l):
         t = "Read "
+        var = re.findall(r'&([\w\d]*)',l)
+        t = t  + ', '.join(var)
+    elif("gets" in l):
+        t = "Read "
+        var = re.findall(r'\(([\w\d]*)\)',l)
+        t = t  + ', '.join(var)
     elif("printf" in l):
         t = "Print "
+        var = re.findall(r',(.+)\)',l)
+        l = ' '.join(var)
+        var = re.findall(r'(\w+)',l)
+        t = t + ', '.join(var)
+    elif("puts" in l):
+        t = "Print "
+        var = re.findall(r'\(([\w\d]*)\)',l)
+        t = t  + ', '.join(var)
     elif("else" in l):
         t = l.replace('if',"If")
         t = t.replace('else',"Else")
@@ -72,7 +83,7 @@ algorithm = "\n".join(algo)
 algorithm = algorithm.replace('('," ")
 algorithm = algorithm.replace(')'," ")
 algorithm = algorithm.replace('%',' MOD ')
-algorithm = algorithm.replace('==','=')
+algorithm = algorithm.replace('==',' = ')
 algorithm = algorithm.replace('&&',' AND ')
 algorithm = algorithm.replace("EndIf.\nElse","Else")
 
@@ -80,7 +91,7 @@ algorithm = algorithm.replace("EndIf.\nElse","Else")
 print(text,"\n")
 print(algorithm)
 
-pyperclip.copy(algorithm)
+#pyperclip.copy(algorithm)
 
 # Example Input
 """
@@ -101,11 +112,11 @@ void main()
     }
     else if(a == 0)
     {
-        scanf("");
+        scanf("%d",&length,&str1,&c2);
     }
     else
     {
-        printf("");
+        printf("Hello my name is %d",name, class)
     }
     scanf("");
 }
