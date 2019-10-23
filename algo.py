@@ -26,7 +26,7 @@ for l in lines:
 
 for l in lines:
     t = ''
-    if("void" in l):
+    if("main" in l):
         stack.append("Stop.")
         t = "Start."
     elif("int " in l):
