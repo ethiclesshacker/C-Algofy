@@ -99,38 +99,32 @@ for match in re.findall(r'([.]*EndIf\.\n[\s]*Else)',algorithm):
 print(text,"\n")
 print(algorithm)
 
-#pyperclip.copy(algorithm)
+pyperclip.copy(algorithm)
 
 # Example Input
 """
-void main()
+#include<stdio.h>
+int main()
 {
-    int a = 5;
-    a = 6;
-    b = a % 3;
-    if(a%5 == 0)
-    {
-        if(hey==6)
-        {
-            printf("Hi");
-        }
-        printf("");
-        printf("");
-        while(a<4)
-        {
-            printf("");
-            scanf("");
-        }
-    }
-    else if(a == 0)
-    {
-        scanf("%d",&length,&str1,&c2);
-    }
-    else
-    {
-        printf("Hello my name is %d",name, class)
-    }
-    scanf("");
+	int i,n,sum=0,f,s,d;
+	printf("Enter number : ");
+	scanf("%d", &n);
+	s=n;
+	while(n>0)
+	{
+		d=n%10;
+		
+		for(i=1,f=1;i<=d;i++)
+		{
+			f=f*i;
+		}
+		sum=sum+f;
+		n=n/10;
+	}
+		if(sum==s)
+		printf("%d is a peterson number", s);
+		else
+		printf("%d is not a peterson number", s);
 }
 
 """
