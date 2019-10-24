@@ -2,7 +2,6 @@
 #C Algorithm Generator
 
 import sys
-import os
 import re
 import pyperclip
 
@@ -32,9 +31,6 @@ for l in lines:
     elif("int " in l):
         if(';' in l):
             t  = "Set Variables"
-    elif(" = " in l):
-            t  = l.replace('=',"<--")
-            t  = t.replace(';',"")
     elif(l =='{'):
         indentCount = indentCount + 1
         continue
@@ -53,9 +49,12 @@ for l in lines:
     elif("printf" in l):
         t = "Print "
         var = re.findall(r',(.+)\)',l)
-        l = ' '.join(var)
-        var = re.findall(r'(\w+)',l)
-        t = t + ', '.join(var)
+        match1 = re.findall(r'(%\w+)',l)
+        match2 = re.findall(r'(,\s*)(\w+)',l)
+        l = re.findall(r'".+"',l)[0]
+        for i in range(len(match2)):
+            l = l.replace(match1[i],match2[i][1])
+        t = t + l
     elif("puts" in l):
         t = "Print "
         var = re.findall(r'\(([\w\d]*)\)',l)
@@ -68,11 +67,17 @@ for l in lines:
         t = l.replace('if',"If")
         stack.append("EndIf.")
     elif("for" in l):
-        t = "While..."
-        stack.append("EndWhile.")
+        matches = re.findall(r'(;)(.+)(;)',l)
+        t = "While " + matches[0][1]
+        stack.append("//Add increment/decrement here.\n"+(tab*indentCount)+"EndWhile.")
     elif("while" in l):
         t = l.replace('while',"While")
         stack.append("EndWhile.")
+    elif("=" in l):
+        t  = l.replace('='," <-- ")
+        t  = t.replace(';',"")
+    elif(l==""):
+        continue
     else:
         t = l
 
@@ -85,7 +90,10 @@ algorithm = algorithm.replace(')'," ")
 algorithm = algorithm.replace('%',' MOD ')
 algorithm = algorithm.replace('==',' = ')
 algorithm = algorithm.replace('&&',' AND ')
-algorithm = algorithm.replace("EndIf.\nElse","Else")
+
+
+for match in re.findall(r'([.]*EndIf\.\n[\s]*Else)',algorithm):
+    algorithm = algorithm.replace(match,"Else")
 
 
 print(text,"\n")
@@ -102,6 +110,10 @@ void main()
     b = a % 3;
     if(a%5 == 0)
     {
+        if(hey==6)
+        {
+            printf("Hi");
+        }
         printf("");
         printf("");
         while(a<4)
