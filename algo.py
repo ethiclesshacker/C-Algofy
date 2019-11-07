@@ -53,7 +53,7 @@ for l in lines:
         match1 = re.findall(r'(%\w+)',l)
         match2 = re.findall(r'(,\s*)(\w+)',l)
         l = re.findall(r'".+"',l)[0]
-        for i in range(len(match2)):
+        for i in range(len(match1)):
             l = l.replace(match1[i],match2[i][1])
         t = t + l
     elif("puts" in l):
@@ -119,6 +119,8 @@ algorithm = algorithm.replace('&&',' AND ')
 for match in re.findall(r'([.]*EndIf\.\n[\s]*Else)',algorithm):
     algorithm = algorithm.replace(match,"Else")
 
+for match in re.findall(r'\\\w',algorithm):
+    algorithm = algorithm.replace(match,"")
 
 print(text,"\n")
 print(algorithm)
