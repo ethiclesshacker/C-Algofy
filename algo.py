@@ -18,13 +18,14 @@ c = 0
 
 algo = []
 stack = []
+sv = ''
 
 for l in lines:
     lines[c] = l.strip()
     c = c + 1
 
 for l in lines:
-    t = ''
+    # t = ''
     if("main" in l):
         stack.append("Stop.")
         t = "Start."
@@ -37,7 +38,7 @@ for l in lines:
     elif(l == '}'):
         indentCount = indentCount - 1
         t = stack[-1]
-        stack.pop()    
+        stack.pop()
     elif("scanf" in l):
         t = "Read "
         var = re.findall(r'&([\w\d]*)',l)
@@ -78,10 +79,33 @@ for l in lines:
         t  = t.replace(';',"")
     elif(l==""):
         continue
+    elif("switch" in l):
+        sv = re.findall(r'\(([\w]+)\)',l)[0]
+        # indentCount = indentCount - 1
+        stack.append("")
+        continue
+    elif("case" in l):
+        # t = t + "If " + sv + " = " + re.findall(r'\d+',l)[0]
+        t = t + "If " + sv + " = " + re.findall(r'\d+ | \'\w+\'', l )[0]
+        algo.append((tab*(indentCount-1))+t)
+        # indentCount = indentCount + 1 
+        continue
+    elif("break" in l):
+        t = "Else "
+        # indentCount = indentCount - 1 
+        continue
+    elif("default" in l):
+        t = "Else "
+        algo.append((tab*(indentCount-1))+t)
+        continue
+        # indentCount = indentCount - 1
+    elif("exit(0)" in l):
+        t = "Exit"
     else:
         t = l
 
     algo.append((tab*indentCount)+t)
+    t = ""
 
 
 algorithm = "\n".join(algo)
@@ -99,7 +123,7 @@ for match in re.findall(r'([.]*EndIf\.\n[\s]*Else)',algorithm):
 print(text,"\n")
 print(algorithm)
 
-pyperclip.copy(algorithm)
+# pyperclip.copy(algorithm)
 
 # Example Input
 """
@@ -121,10 +145,24 @@ int main()
 		sum=sum+f;
 		n=n/10;
 	}
-		if(sum==s)
-		printf("%d is a peterson number", s);
-		else
-		printf("%d is not a peterson number", s);
+
+    if(sum==s)
+    {
+        printf("%d is a peterson number", s);
+    }
+    else
+    {
+        printf("%d is not a peterson number", s);
+        switch(ch)
+        {
+            case 1 :
+            printf("Stupid People");
+            break;
+            case 2:
+            printf("Crazy People");
+            break;    
+        }
+    }    
 }
 
 """
