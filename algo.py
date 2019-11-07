@@ -160,9 +160,11 @@ int main()
             case 1 :
             printf("Stupid People");
             break;
-            case 2:
+            case 2 :
             printf("Crazy People");
-            break;    
+            break; 
+            default:
+            printf("Oops");
         }
     }    
 }
