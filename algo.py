@@ -125,7 +125,7 @@ for match in re.findall(r'\\\w',algorithm):
 print(text,"\n")
 print(algorithm)
 
-# pyperclip.copy(algorithm)
+pyperclip.copy(algorithm)
 
 # Example Input
 """
