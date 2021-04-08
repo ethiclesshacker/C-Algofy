@@ -13,7 +13,7 @@ Runs the program, and prints out the algorithm for any C code copied beforehand.
 
 Optional Parameters :
 
-[fileName] - Writes the Algorithm for the specified file.\
+[fileName] - Writes the Algorithm for the specified file.
 
 
 WARNING : The program is not 100% accurate. Please check and edit the Output before using anywhere.
